@@ -10,18 +10,19 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.adibklaseak.models.Datuak
 import com.example.adibklaseak.models.Pertsonaiak
 import com.example.adibklaseak.ui.theme.AdibKlaseakTheme
 
@@ -32,7 +33,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             AdibKlaseakTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    PertsonaiaZerranda(
+                    PertsonaiakZerrenda(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -42,20 +43,21 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun PertsonaiaZerranda(modifier: Modifier = Modifier) {
-    val ginyu = Pertsonaiak("Ginyu", 500, 10000)
-    val dodaria = Pertsonaiak("Dodaria", 300, 9000)
-    val zarbon = Pertsonaiak("Zarbon", 350, 7000)
-    val freezer = Pertsonaiak("Freezer", 800, 13000)
-
-    Column(modifier = modifier.fillMaxSize()) {
+fun PertsonaiakZerrenda(modifier: Modifier = Modifier) {
+    val pertsonaia = Datuak().pertsonaiakZerrenda()
+    LazyColumn(modifier = Modifier) {
+        items(pertsonaia){ pertsonaiak -> PertsonaiaZerranda(pertsonaiak) }
+    }
+}
+@Composable
+fun PertsonaiaZerranda(pertsonaiak: Pertsonaiak, modifier: Modifier = Modifier) {
         Card(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    painter = painterResource(R.drawable.ginyu),
+                    painter = painterResource(pertsonaiak.irudia),
                     contentDescription = "Ginyu",
                 )
                 Column(
@@ -63,114 +65,26 @@ fun PertsonaiaZerranda(modifier: Modifier = Modifier) {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = ginyu.izena,
+                        text = pertsonaiak.izena,
                         fontSize = 20.sp,
                         lineHeight = 22.sp)
                     Text(
-                        text = "Ki: ${ginyu.ki}",
+                        text = "Ki: ${pertsonaiak.ki}",
                         fontSize = 20.sp,
                         lineHeight = 22.sp)
                     Text(
-                        text = "Max Ki: ${ginyu.maxKi}",
-                        fontSize = 20.sp,
-                        lineHeight = 22.sp)
-                }
-            }
-        }
-
-        Card(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.dodoria),
-                    contentDescription = "Dodaria",
-                )
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = dodaria.izena,
-                        fontSize = 20.sp,
-                        lineHeight = 22.sp)
-                    Text(
-                        text = "Ki: ${dodaria.ki}",
-                        fontSize = 20.sp,
-                        lineHeight = 22.sp)
-                    Text(
-                        text = "Max Ki: ${dodaria.maxKi}",
-                        fontSize = 20.sp,
-                        lineHeight = 22.sp)
-                }
-            }
-        }
-
-        Card(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.zarbon),
-                    contentDescription = "Zarbon",
-                )
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = zarbon.izena,
-                        fontSize = 20.sp,
-                        lineHeight = 22.sp)
-                    Text(
-                        text = "Ki: ${zarbon.ki}",
-                        fontSize = 20.sp,
-                        lineHeight = 22.sp)
-                    Text(
-                        text = "Max Ki: ${zarbon.maxKi}",
-                        fontSize = 20.sp,
-                        lineHeight = 22.sp)
-                }
-            }
-        }
-
-        Card(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.freezer),
-                    contentDescription = "Freezer",
-                )
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = freezer.izena,
-                        fontSize = 20.sp,
-                        lineHeight = 22.sp)
-                    Text(
-                        text = "Ki: ${freezer.ki}",
-                        fontSize = 20.sp,
-                        lineHeight = 22.sp)
-                    Text(
-                        text = "Max Ki: ${freezer.maxKi}",
+                        text = "Max Ki: ${pertsonaiak.maxKi}",
                         fontSize = 20.sp,
                         lineHeight = 22.sp)
                 }
             }
         }
     }
-}
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     AdibKlaseakTheme {
-        PertsonaiaZerranda()
+        PertsonaiakZerrenda()
     }
 }
